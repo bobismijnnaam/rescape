@@ -2,6 +2,7 @@
 #define GSINTRO_H
 
 #include "gamestate.h"
+#include "knightslogo.h"
 
 class gsIntro : public cGameState {
 public:
@@ -13,7 +14,14 @@ public:
     int render();
 
 private:
+    cKnightsLogo* logo;
 
+    SDL_Surface* sOgam;
+    SDL_Surface* sSdl;
+    SDL_Surface* sFade;
+
+    int startTime;
+    int fadeTime;
 } ;
 
 #endif

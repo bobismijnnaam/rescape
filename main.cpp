@@ -1,20 +1,61 @@
+#include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
+
+#include "constants.h"
+#include "globals.h"
+#include "mtwist.h"
 
 int init() {
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
+
+    TTF_Init();
+
+    screen = SDL_SetVideoMode(SCR_W, SCR_H, SCR_BPP, SDL_SWSURFACE);
+    SDL_WM_SetCaption("Relentless Escape", NULL);
+
+    mt_seed();
+
+    gm = new cGameMan(STATE_INTRO);
+
+    TTF_Font* fHeadline = TTF_OpenFont("Media/Fonts/courier_noir.ttf", 50);
 
     return 0;
 }
 
 int game() {
+    while (gm->getState() != STATE_EXIT) {
+        gm->currState->events();
+
+        gm->currState->logic();
+
+        gm->changeState();
+
+        SDL_Delay(1);
+
+        gm->currState->render();
+    }
 
     return 0;
 }
 
 int quit() {
+    delete gm;
+
+    TTF_CloseFont(fHeadline);
+
+    TTF_Quit();
+
+    SDL_Quit();
 
     return 0;
 }
 
 int main(int argc, char *argv[]) {
+    init();
+
+    game();
+
+    quit();
 
     return 0;
 }

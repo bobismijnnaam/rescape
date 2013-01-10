@@ -32,7 +32,7 @@ cGameMan::cGameMan(GameStates startState) {
 }
 
 cGameMan::~cGameMan() {
-
+    delete this->currState;
 }
 
 int cGameMan::setNextState(GameStates targetState) {
