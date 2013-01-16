@@ -3,6 +3,7 @@
 
 #include <SDL/SDL.h>
 
+#include "buttons.h"
 #include "gamestate.h"
 
 class gsMenu : public cGameState {
@@ -15,8 +16,17 @@ public:
     int render();
 
 private:
-    SDL_Surface* bg;
+    SDL_Surface* bgF;
+    SDL_Surface* bgB;
+    SDL_Surface* light;
+    SDL_Surface* sFade;
 
+    bool lightState;
+    int lightTime;
+
+    int fadeTime;
+
+    cButtonSet* buttons;
 } ;
 
 #endif

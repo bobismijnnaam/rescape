@@ -6,6 +6,15 @@
 #include "functions.h"
 #include "globals.h"
 
+SDL_Surface* createSurf(int w, int h, SDL_Surface* dst) {
+    SDL_Surface* dummy;
+    const SDL_PixelFormat* fmt = dst->format;
+
+    dummy = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h,fmt->BitsPerPixel, fmt->Rmask, fmt->Gmask, fmt->Bmask, fmt->Amask);
+
+    return dummy;
+}
+
 int fresh(SDL_Surface* dst, bool black) {
     int c;
 

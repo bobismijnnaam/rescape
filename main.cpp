@@ -17,7 +17,8 @@ int init() {
 
     gm = new cGameMan(STATE_INTRO);
 
-    TTF_Font* fHeadline = TTF_OpenFont("Media/Fonts/courier_noir.ttf", 50);
+    fHeadline = TTF_OpenFont("Media/Fonts/courier_noir.ttf", 50);
+    fButton = TTF_OpenFont("Media/Fonts/courier_noir.ttf", 40);
 
     return 0;
 }

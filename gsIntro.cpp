@@ -33,7 +33,7 @@ int gsIntro::events() {
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
             gm->setNextState(STATE_EXIT);
-        } else if (event.type == SDL_KEYDOWN) {
+        } else if (event.type == SDL_KEYDOWN || event.type == SDL_MOUSEBUTTONDOWN) {
             gm->setNextState(STATE_MENU);
         }
     }
