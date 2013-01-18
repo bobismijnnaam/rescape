@@ -20,6 +20,10 @@ int init() {
     fHeadline = TTF_OpenFont("Media/Fonts/courier_noir.ttf", 50);
     fButton = TTF_OpenFont("Media/Fonts/courier_noir.ttf", 40);
 
+    // console hack
+    // freopen( "CON", "wt", stdout );
+    // freopen( "CON", "wt", stderr );
+
     return 0;
 }
 

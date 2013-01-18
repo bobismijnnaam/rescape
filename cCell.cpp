@@ -10,7 +10,6 @@ cCell::cCell(int fX, int fY, SDL_Surface* dst) {
 
     dVis = false;
     furniture = false;
-    furnitureID = FUR_NULL;
     state = STATE_UNVISITED;
     visitTime = 0;
 
@@ -23,6 +22,8 @@ cCell::cCell(int fX, int fY, SDL_Surface* dst) {
     if ((x == 0 && y == 0) || (x == 14 && y == 8)) {
         delay = 3000;
     }
+
+    sFurniture = NULL;
 }
 
 // Destructor
@@ -80,9 +81,16 @@ int cCell::logic() {
 int cCell::render(FieldMode mode, SDL_Surface* dst) {
     if (mode == MODE_SHADOW) {
         // Render fog & maybe furniture
+        if (sFurniture != NULL) {
+            applySurface(sFurniture, dst, 20 + x * 40, 66 + y * 40);
+        }
+
         applySurface(sFade, dst, 20 + x * 40, 66 + y * 40);
-    } else {
+    } else if (mode == MODE_DISPLAY) {
         // Render furniture zonder fog
+        if (sFurniture != NULL) {
+            applySurface(sFurniture, dst, 20 + x * 40, 66 + y * 40);
+        }
     }
 
     return 0;
@@ -95,13 +103,13 @@ bool cCell::isFurniture() {
 
 // Sets the cell to contain furniture
 // What pieces it contains is randomly decided here
-int cCell::sFurniture(bool occupy) {
+int cCell::setFurn(bool occupy, SDL_Surface* furSurf) {
     if (occupy) {
         furniture = true;
-        furnitureID = FUR_MAX;
+        sFurniture = furSurf;
     } else {
         furniture = false;
-        furnitureID = FUR_NULL;
+        sFurniture = NULL;
     }
 
     return 0;
@@ -128,4 +136,12 @@ int cCell::leave() {
     visitTime = SDL_GetTicks();
 
     return 0;
+}
+
+int cCell::gX() {
+    return x;
+}
+
+int cCell::gY() {
+    return y;
 }

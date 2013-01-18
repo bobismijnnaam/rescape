@@ -8,7 +8,8 @@ gsGame::gsGame() {
     sBG = loadImage("Media/Images/bgGame.png");
 
     field = new cField(screen);
-    field->sMode(MODE_SHADOW);
+    field->sMode(MODE_DISPLAY);
+    field->populate(POS_B, 40);
 }
 
 gsGame::~gsGame() {
@@ -23,7 +24,11 @@ int gsGame::events() {
         if (event.type == SDL_QUIT) {
             gm->setNextState(STATE_EXIT);
         } else if (event.type == SDL_KEYDOWN) {
-            // Space
+            if (event.key.keysym.sym == SDLK_ESCAPE) {
+                gm->setNextState(STATE_MENU);
+            } else if (event.key.keysym.sym == SDLK_r) {
+                gm->setNextState(STATE_GAME);
+            }
         } else if(event.type == SDL_MOUSEBUTTONDOWN) {
             if (event.button.x >= 20 && event.button.x < 620 && event.button.y >= 66 && event.button.y < 426) {
                 int ix = floor((event.button.x - 20) / 600.0 * 15);
