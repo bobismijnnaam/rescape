@@ -161,15 +161,44 @@ int cButtonSet::gReleased() {
     return 0;
 }
 
+ eBAction cButtonSet::gState() {
+    if (buttons.size() > 0) {
+        return buttons.front()->gAction();
+    }
+
+    return B_NULL;
+ }
+
 int cButtonSet::addB(std::string capt) {
     if (vertical) {
-        int d = mt_lrand() % dX;
-        int t = mt_lrand() % dT;
+        int d = 0;
+        if (dX != 0) {
+            d = mt_lrand() % dX;
+        }
+
+        int t = 0;
+        if (dT != 0) {
+            int t = mt_lrand() % dT;
+        }
+
         buttons.push_back(new cButton(f, capt, sX - dX * .5 + d, sY + buttons.size() * dY, startAction, dir, mT - dT * .5 + t, nClr, hClr, fmt));
     } else {
         // Horizontaal
+        /*
         int d = mt_lrand() % dY;
         int t = mt_lrand() % dT;
+        */
+
+        int d = 0;
+        if (dX != 0) {
+            d = mt_lrand() % dY;
+        }
+
+        int t = 0;
+        if (dT != 0) {
+            t = mt_lrand() % dT;
+        }
+
         buttons.push_back(new cButton(f, capt, sX + buttons.size() * dX, sY - dX * .5 + d, startAction, dir, mT - dT * .5 + t, nClr, hClr, fmt));
     }
 

@@ -8,4 +8,10 @@ SDL_Surface* screen = NULL;
 cGameMan* gm = NULL;
 
 TTF_Font* fHeadline = NULL;
-TTF_Font* fButton;
+TTF_Font* fBigHeadline = NULL;
+TTF_Font* fButton = NULL;
+TTF_Font* fSmall = NULL;
+TTF_Font* fMedium = NULL;
+
+Uint32 white;
+Uint32 grey;

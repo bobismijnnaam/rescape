@@ -1,5 +1,6 @@
 #include <SDL/SDL.h>
 
+#include "cCheckboxes.h"
 #include "constants.h"
 #include "functions.h"
 #include "globals.h"
@@ -13,19 +14,17 @@ gsMenu::gsMenu() {
     lightState = true;
     lightTime = SDL_GetTicks();
 
-    const SDL_PixelFormat* fmt = screen->format;
-    sFade = SDL_CreateRGBSurface(SDL_SWSURFACE, SCR_W, SCR_H, SCR_BPP, fmt->Rmask, fmt->Gmask, fmt->Bmask, fmt->Amask);
+    sFade = createSurf(SCR_W, SCR_H, screen);
     fresh(sFade, true);
-    fadeTime = SDL_GetTicks();
-
-    Uint32 white = SDL_MapRGB(screen->format, 255, 255, 255);
-    Uint32 grey = SDL_MapRGB(screen->format, 128, 128, 128);
+    fader = new cFader(sFade, 500, 255, STATE_FADEOUT);
 
     buttons = new cButtonSet(fButton, true, B_MIN, 140, 200, 20, 50, 500, 50, DIR_LEFT, white, grey, screen->format);
     buttons->addB("Play");
-    buttons->addB("Help");
+    buttons->addB("The Story");
     buttons->addB("About");
     buttons->addB("Exit");
+
+    nextState = STATE_NULL;
 }
 
 gsMenu::~gsMenu() {
@@ -57,19 +56,28 @@ int gsMenu::logic() {
         lightTime = SDL_GetTicks();
     }
 
-    if (SDL_GetTicks() - fadeTime >= 2000) {
-        fadeTime = -1;
-    }
-
     if (buttons->gClicked() == 1) {
-        gm->setNextState(STATE_GAME);
+        // gm->setNextState(STATE_GAME);
+        nextState = STATE_GAME;
     }
 
     if (buttons->gClicked() == 4) {
-        gm->setNextState(STATE_EXIT);
+        // gm->setNextState(STATE_EXIT);
+        nextState = STATE_EXIT;
+    }
+
+    if (nextState != STATE_NULL && fader->gState() == STATE_INVISIBLE) {
+        buttons->moveOut();
+        fader->fIn();
+    }
+
+    if (buttons->gState() == B_AWAY) {
+        gm->setNextState(nextState);
     }
 
     buttons->logic();
+
+    fader->logic();
 
     return 0;
 }
@@ -89,11 +97,7 @@ int gsMenu::render() {
 
     buttons->render(screen);
 
-    if (fadeTime > -1) {
-        int d = SDL_GetTicks() - fadeTime;
-        if (d <= 2000) SDL_SetAlpha(sFade, SDL_SRCALPHA, (2000 - d) / 2000.0 * 255);
-        applySurface(sFade, screen, 0, 0);
-    }
+    fader->render(screen, 0, 0);
 
     SDL_Flip(screen);
 

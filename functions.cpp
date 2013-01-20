@@ -37,6 +37,16 @@ bool inRangeEx (int p, int min, int max) {
     return false;
 }
 
+int applyClipped(SDL_Surface* src, SDL_Surface* dst, int x, int y, SDL_Rect* clip) {
+    SDL_Rect tRect;
+    int t = 0;
+
+    tRect.x = x;
+    tRect.y = y;
+
+    t = SDL_BlitSurface(src, clip, dst, &tRect);
+}
+
 int applySurface(SDL_Surface* src, SDL_Surface* dst, int x, int y) {
     SDL_Rect tRect;
     int t = 0;

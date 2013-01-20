@@ -4,6 +4,9 @@
 
 #include "buttons.h"
 
+// mousedown = pressed
+// mouse continously down = mclick
+
 int applySurfaceButton(SDL_Surface* src, SDL_Surface* dst, int x, int y) {
     SDL_Rect tRect;
     int t = 0;
@@ -172,8 +175,6 @@ int cButton::render(SDL_Surface* dst) {
     int pX = 0, pY = 0;
     SDL_Surface* sButton = NULL;
     float progress;
-
-    int dummy = SDL_GetTicks();
 
     if (action == B_MOUT || action == B_MIN) {
         progress = (SDL_GetTicks() - actionStart) / (float)moveTime;

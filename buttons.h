@@ -95,6 +95,8 @@ public:
     int gPressed();
     int gReleased();
 
+    eBAction gState();
+
     int addB(std::string capt);
 private:
     std::list<cButton*> buttons;

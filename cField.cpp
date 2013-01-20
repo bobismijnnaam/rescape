@@ -19,7 +19,7 @@ cField::cField(SDL_Surface* dst) { // int fx, int fy, int fw, int fh,
     furnies[7] = loadImage("Media/Images/fur7res.png");
     furnies[8] = loadImage("Media/Images/fur8res.png");
 
-    int d, r;
+    // int d, r;
 
     for (int y = 0; y < 9; y++) {
         for (int x = 0; x < 15; x++) {
@@ -206,16 +206,30 @@ bool cField::evaluate() {
 // Returns the amount of furnishings in the vicinity
 int cField::scan(int x, int y) {
     int cX, cY;
-    int count;
+    int count = 0;
+    bool crashed = false;
 
-    for (int iX = -1; iX < 2; ++iX) {
-        for (int iY = -1; iY < 2; ++iY) {
-            cX = x + iX; cY = y + iY;
-            if (!(cX < 0 || cX > 15 || cY < 0 || cY > 9)) {
-                // ++count if furniture
+    // Loop through all the positions around the player
+    for (int iY = 0; iY < 3; ++iY) {
+        for (int iX = 0; iX < 3; ++iX) {
+            cX = x + iX - 1;
+            cY = y + iY - 1;
+            if (cX > -1 && cY > -1 && cX < 15 && cY < 9) {
+                if (field[cX][cY]->isFurniture()) { // CHeck for furniture
+                    if (x == cX && y == cY) { // If the current square is the player square then end the game
+                        crashed = true;
+                        break;
+                    } else { // Else it's just around the player, so increas the furniecount and carry on
+                        ++count;
+                    }
+                }
             }
         }
+
+        if (crashed) break;
     }
+
+    if (crashed) return 9;
 
     return count;
 }

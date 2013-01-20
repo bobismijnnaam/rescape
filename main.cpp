@@ -18,7 +18,13 @@ int init() {
     gm = new cGameMan(STATE_INTRO);
 
     fHeadline = TTF_OpenFont("Media/Fonts/courier_noir.ttf", 50);
+    fBigHeadline = TTF_OpenFont("Media/Fonts/courier_noir.ttf", 80);
     fButton = TTF_OpenFont("Media/Fonts/courier_noir.ttf", 40);
+    fSmall = TTF_OpenFont("Media/Fonts/courier_noir.ttf", 20);
+    fMedium = TTF_OpenFont("Media/Fonts/courier_noir.ttf", 30);
+
+    white = SDL_MapRGB(screen->format, 255, 255, 255);
+    grey = SDL_MapRGB(screen->format, 128, 128, 128);
 
     // console hack
     // freopen( "CON", "wt", stdout );

@@ -1,5 +1,12 @@
 To-do:
 
-Eerst menu maar eens even afmaken.
-    - Knoppen
-    - Easter Eggs (pas als het echte spel werkt)
+Game:
+    Eerste stap:
+        - Uitleg (keypad, meubeldetector, start & doel)
+    Het spel:
+        - Het spel moet te winnen zijn met alleen horizontale/verticale zetten!
+    Pauze-scherm:
+        - Werkende knoppen
+        - Mini-uitleg (keypad, waarheen, aanwijzing meubeldetector)
+    Winnen/verliezen:
+        - Knoppen met retry & back to main menu

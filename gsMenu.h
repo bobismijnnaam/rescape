@@ -4,6 +4,7 @@
 #include <SDL/SDL.h>
 
 #include "buttons.h"
+#include "cFader.h"
 #include "gamestate.h"
 
 class gsMenu : public cGameState {
@@ -24,9 +25,11 @@ private:
     bool lightState;
     int lightTime;
 
-    int fadeTime;
+    GameStates nextState;
 
     cButtonSet* buttons;
+
+    cFader* fader;
 } ;
 
 #endif

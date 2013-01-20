@@ -17,7 +17,7 @@ cCell::cCell(int fX, int fY, SDL_Surface* dst) {
     SDL_FillRect(sFade, NULL, SDL_MapRGB(dst->format, 0, 0, 0));
     SDL_SetAlpha(sFade, SDL_SRCALPHA, 255);
     delay = 500;
-    threshold = 100;
+    threshold = 50;
 
     if ((x == 0 && y == 0) || (x == 14 && y == 8)) {
         delay = 3000;
