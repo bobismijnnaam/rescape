@@ -29,6 +29,8 @@ cGameMan::cGameMan(GameStates startState) {
 
     this->stateID = startState;
     this->nextState = STATE_NULL;
+
+    diff = 2;
 }
 
 cGameMan::~cGameMan() {

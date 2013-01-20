@@ -24,6 +24,20 @@ gsMenu::gsMenu() {
     buttons->addB("About");
     buttons->addB("Exit");
 
+    Uint32 outer = SDL_MapRGB(screen->format, 80, 80, 80);
+    Uint32 inner = SDL_MapRGB(screen->format, 0, 0, 0);
+    SDL_Color cWhite = {255, 255, 255};
+    cb = new cCheckboxesOne(270, 437, 20, 20, 3, 110, true, outer, inner, fSmall, cWhite, 6, 3);
+
+    cb->addBox("Easy");
+    cb->addBox("Medium");
+    cb->addBox("Hard");
+    cb->addBox("Knightmare");
+
+    cb->s(gm->diff, true);
+
+    sDiff = TTF_RenderText_Blended(fSmall, "Difficulty:", cWhite);
+
     nextState = STATE_NULL;
 }
 
@@ -32,8 +46,11 @@ gsMenu::~gsMenu() {
     SDL_FreeSurface(bgB);
     SDL_FreeSurface(light);
     SDL_FreeSurface(sFade);
+    SDL_FreeSurface(sDiff);
 
     delete buttons;
+
+    delete cb;
 }
 
 int gsMenu::events() {
@@ -45,6 +62,8 @@ int gsMenu::events() {
         }
 
         buttons->handleEvents(&event);
+
+        cb->events(&event);
     }
 
     return 0;
@@ -59,6 +78,7 @@ int gsMenu::logic() {
     if (buttons->gClicked() == 1) {
         // gm->setNextState(STATE_GAME);
         nextState = STATE_GAME;
+        gm->diff = cb->g();
     }
 
     if (buttons->gClicked() == 4) {
@@ -96,6 +116,10 @@ int gsMenu::render() {
     applySurface(bgF, screen, 0, 0);
 
     buttons->render(screen);
+
+    applySurface(sDiff, screen, 150, 440);
+
+    cb->render(screen);
 
     fader->render(screen, 0, 0);
 

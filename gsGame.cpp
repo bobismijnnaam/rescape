@@ -12,7 +12,7 @@
 gsGame::gsGame() {
     sBG = loadImage("Media/Images/bgGame.png");
 
-    diff = 40;
+    diff = gm->diff * 10;
     steps = 0;
 
     field = new cField(screen);

@@ -4,6 +4,7 @@
 #include <SDL/SDL.h>
 
 #include "buttons.h"
+#include "cCheckboxes.h"
 #include "cFader.h"
 #include "gamestate.h"
 
@@ -21,6 +22,7 @@ private:
     SDL_Surface* bgB;
     SDL_Surface* light;
     SDL_Surface* sFade;
+    SDL_Surface* sDiff;
 
     bool lightState;
     int lightTime;
@@ -28,6 +30,8 @@ private:
     GameStates nextState;
 
     cButtonSet* buttons;
+
+    cCheckboxesOne* cb;
 
     cFader* fader;
 } ;

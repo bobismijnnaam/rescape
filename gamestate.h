@@ -46,7 +46,7 @@ public:
     GameStates getState(); // Met deze functie vraag je de huidige state op
     int changeState(); // Deze functie veranderd de functie ook daadwerkelijk (verwijderd de oude, maakt de nieuwe, etc.)
 
-    int* params; // In deze pointer kun je een array aan variabelen opslaan die je in elke state wilt kunnen gebruiken.
+    int diff; // In deze pointer kun je een array aan variabelen opslaan die je in elke state wilt kunnen gebruiken.
 } ;
 
 #endif
