@@ -103,3 +103,24 @@ int cGameTimer::pause() {
 
     return 0;
 }
+
+int cGameTimer::g() {
+    int tTime;
+
+    switch (state) {
+        case STATE_RESET:
+            tTime = 0;
+            break;
+        case STATE_STOPPED:
+            tTime = (endTime - startTime) / 1000;
+            break;
+        case STATE_RUNNING:
+            tTime = (SDL_GetTicks() - startTime) / 1000;
+            break;
+        case STATE_TPAUSED:
+            tTime = (pausedTime - startTime) / 1000;
+            break;
+    }
+
+    return tTime;
+}

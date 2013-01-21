@@ -19,6 +19,7 @@ cChar::cChar() {
     sWalk[1] = loadImage("Media/Images/player1.png");
     sWalk[2] = loadImage("Media/Images/player2.png");
     sWalk[3] = loadImage("Media/Images/player3.png");
+    sWalk[4] = loadImage("Media/Images/player1black.png");
 
     clip[0].x = 0;
     clip[0].y = 0;
@@ -164,6 +165,11 @@ int cChar::logic(cField* field) {
         y = ty;
     }
 
+    if (SDL_GetTicks() - animTime >= 1000 && state == STATE_END1) {
+        state = STATE_END2;
+        animTime = SDL_GetTicks();
+    }
+
     return 0;
 }
 
@@ -188,7 +194,23 @@ int cChar::render(SDL_Surface* dst) {
         ry = aty * d + ay * (1 - d);
 
         applyClipped(sWalk[dir], dst, rx, ry, &clip[a]);
+    } else if (state == STATE_END1) {
+        // HIDE
+    } else if (state == STATE_END2) {
+        d = (SDL_GetTicks() - animTime) / 4000.0;
+        rx = 590 * (1 - d) + 710 * (d);
+        ry = 380;
+        applyClipped(sWalk[4], dst, rx, ry, &clip[a]);
+    } else if (state == STATE_GONE) {
+        // HIDE
     }
+
+    return 0;
+}
+
+int cChar::exit() {
+    animTime = SDL_GetTicks();
+    state = STATE_END1;
 
     return 0;
 }
@@ -199,4 +221,8 @@ int cChar::gX() {
 
 int cChar::gY() {
     return y;
+}
+
+CharState cChar::gS() {
+    return state;
 }

@@ -63,6 +63,21 @@ FaderStates cFader::gState() {
     return state;
 }
 
+int cFader::sState(FaderStates newState) {
+    switch (newState) {
+        case STATE_VISIBLE:
+            state = STATE_VISIBLE;
+            SDL_SetAlpha(sFade, SDL_SRCALPHA, 255);
+            break;
+        case STATE_INVISIBLE:
+            state = STATE_INVISIBLE;
+            SDL_SetAlpha(sFade, SDL_SRCALPHA, 0);
+            break;
+    }
+
+    return 0;
+}
+
 int cFader::logic() {
     int a;
 

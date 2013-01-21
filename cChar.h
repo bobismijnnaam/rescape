@@ -9,7 +9,10 @@ const int CHAR_DELAY = 500;
 
 enum CharState {
     STATE_WAIT = 0,
-    STATE_WALK
+    STATE_WALK,
+    STATE_END1,
+    STATE_END2,
+    STATE_GONE
 } ;
 
 enum Direction {
@@ -28,8 +31,11 @@ public:
     int logic(cField* field);
     int render(SDL_Surface* dst);
 
+    int exit();
+
     int gX();
     int gY();
+    CharState gS();
 
 private:
     int x, y;
@@ -38,7 +44,7 @@ private:
     bool walked;
 
     SDL_Surface* sWait;
-    SDL_Surface* sWalk[4];
+    SDL_Surface* sWalk[5];
 
     SDL_Rect clip[4];
 

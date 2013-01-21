@@ -40,8 +40,10 @@ private:
     cFader* pauseFader;
     cFader* enterFader;
     cFader* stateFader;
+    cFader* endFader;
 
     cButtonSet* buttons;
+    cButtonSet* buttonsEnd;
 
     IngameStates state;
     GameStates nextState;
@@ -51,11 +53,20 @@ private:
     SDL_Surface* sPauseFade;
     SDL_Surface* sStateFade;
     SDL_Surface* sEnterFade;
+    SDL_Surface* sEndFade;
+
+    SDL_Surface* sBlinds;
+    bool blind;
+
+    SDL_Surface* sCaughtLight;
+    bool caughtLight;
 
     SDL_Surface* sBG;
     SDL_Surface* sKP;
     SDL_Surface* sKPCaption;
     SDL_Surface* sKPSub;
+
+    bool endTrigger;
 } ;
 
 #endif

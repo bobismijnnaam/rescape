@@ -42,3 +42,7 @@ int cStepCount::step() {
 
     return 0;
 }
+
+int cStepCount::g() {
+    return count;
+}

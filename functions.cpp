@@ -2,9 +2,58 @@
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_image.h>
 #include <string>
+#include <sstream>
 
 #include "functions.h"
 #include "globals.h"
+
+int endScreen(SDL_Surface* s, std::string caption, int first, int second, TTF_Font* fB, TTF_Font* fS, SDL_Color clrF, SDL_Color clrS) {
+    SDL_Surface* sCaption;
+    SDL_Surface* sCFirst;
+    SDL_Surface* sCSecond;
+    SDL_Surface* sFirst;
+    SDL_Surface* sSecond;
+
+    std::stringstream ss1;
+    std::stringstream ss2;
+
+    std::string strFirst;
+    std::string strSecond;
+
+    ss1 << first;
+    strFirst = ss1.str();
+
+    ss2 << second;
+    strSecond = ss2.str();
+
+    sCaption = TTF_RenderText_Blended(fB, caption.c_str(), clrF);
+
+    sCFirst = TTF_RenderText_Blended(fS, "Time:", clrS);
+    sCSecond = TTF_RenderText_Blended(fS, "Steps:", clrS);
+
+    sFirst = TTF_RenderText_Blended(fS, strFirst.c_str(), clrF);
+    sSecond = TTF_RenderText_Blended(fS, strSecond.c_str(), clrF);
+
+    applySurface(sCaption, s, (s->w - sCaption->w) / 2, 200);
+
+    int x1 = 230;
+    int x2 = 430;
+    int y = 300;
+
+    applySurface(sCFirst, s, x1 - sCFirst->w, y);
+    applySurface(sFirst, s, x1 + 5, y);
+
+    applySurface(sCSecond, s, x2 - sCSecond->w, y);
+    applySurface(sSecond, s, x2 + 5, y);
+
+    SDL_FreeSurface(sCaption);
+    SDL_FreeSurface(sCFirst);
+    SDL_FreeSurface(sCSecond);
+    SDL_FreeSurface(sFirst);
+    SDL_FreeSurface(sSecond);
+
+    return 0;
+}
 
 SDL_Surface* createSurf(int w, int h, SDL_Surface* dst) {
     SDL_Surface* dummy;

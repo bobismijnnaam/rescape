@@ -20,6 +20,8 @@ public:
     int stop();
     int pause();
 
+    int g();
+
 private:
     int startTime;
     int pausedTime;

@@ -9,7 +9,9 @@ public:
     ~cStepCount();
 
     int render(SDL_Surface* dst, int x, int y);
-    virtual int step();
+    int step();
+
+    int g();
 
 private:
     int count;

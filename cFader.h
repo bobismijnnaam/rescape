@@ -23,6 +23,7 @@ public:
     int setAlpha(int alpha);
 
     FaderStates gState();
+    int sState(FaderStates newState);
 
     int logic();
     int render(SDL_Surface* dst, int x, int y);

@@ -1,12 +1,14 @@
-#include <SDL/SDL.h>
-#include <string>
-
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
+
+#include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
+#include <string>
 
 // Dit zijn allemaal functies die ik (9 van de 10 keer) voorafgaand aan het project een keer gemaakt heb.
 // Ik zal hier kort beschrijven waar ik ze voor gebruik
 
+int endScreen(SDL_Surface* s, std::string caption, int first, int second, TTF_Font* fB, TTF_Font* fS, SDL_Color clrF, SDL_Color clrS);
 SDL_Surface* createSurf(int w, int h, SDL_Surface* dst);
 int fresh(SDL_Surface* dst, bool black); // Dit maakt het scherm/surface helemaal wit (dit is niet moeilijk maar het scheelt typwerk 8D)
 bool inRangeEx (int p, int min, int max); // Deze functie checked of een variabele binnen een bepaald bereik is

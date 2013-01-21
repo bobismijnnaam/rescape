@@ -190,7 +190,7 @@ int cButtonSet::addB(std::string capt) {
         */
 
         int d = 0;
-        if (dX != 0) {
+        if (dY != 0) {
             d = mt_lrand() % dY;
         }
 
