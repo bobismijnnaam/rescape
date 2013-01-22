@@ -22,18 +22,17 @@ gsGame::gsGame() {
 
     detector = new cDetector();
 
-    sPauseFade = createSurf(SCR_W, SCR_H, screen);
-    fresh(sPauseFade, true);
-    sStateFade = SDL_ConvertSurface(sPauseFade, sPauseFade->format, sPauseFade->flags);
+    sPauseFade = loadImage("Media/Images/pauseinstructions.png");
+    sPauseFade = SDL_DisplayFormat(sPauseFade);
+
+    sStateFade = createSurf(SCR_W, SCR_H, screen);
+    fresh(sStateFade, true);
+
     sEnterFade = loadImage("Media/Images/instructions.png"); // SDL_ConvertSurface(sPauseFade, sPauseFade->format, sPauseFade->flags);
     sEnterFade = SDL_DisplayFormat(sEnterFade);
 
     SDL_Color clrGrey = {128, 128, 128};
     SDL_Color clrBlack = {0, 0, 0};
-
-    SDL_Surface* sPauseHeader = TTF_RenderText_Shaded(fBigHeadline, "Paused", clrGrey, clrBlack);
-    applySurface(sPauseHeader, sPauseFade, 250, 10);
-    SDL_FreeSurface(sPauseHeader);
 
     pauseFader = new cFader(sPauseFade, 500, 128, STATE_INVISIBLE);
     stateFader = new cFader(sStateFade, 500, 255, STATE_FADEOUT);
@@ -282,7 +281,7 @@ int gsGame::render() {
 
     field->render(screen);
 
-    if (state != STATE_SHOW || state == STATE_LOSE) player->render(screen);
+    if (state != STATE_SHOW && state != STATE_LOSE && state != STATE_WIN) player->render(screen);
 
     int y = 130;
 

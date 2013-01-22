@@ -7,6 +7,9 @@
 // mousedown = pressed
 // mouse continously down = mclick
 
+// gPressed is only in mousedown
+// gClicked is constantly after mousedown
+
 int applySurfaceButton(SDL_Surface* src, SDL_Surface* dst, int x, int y) {
     SDL_Rect tRect;
     int t = 0;

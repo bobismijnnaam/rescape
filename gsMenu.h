@@ -6,6 +6,7 @@
 #include "buttons.h"
 #include "cCheckboxes.h"
 #include "cFader.h"
+#include "cMover.h"
 #include "gamestate.h"
 
 class gsMenu : public cGameState {
@@ -23,6 +24,8 @@ private:
     SDL_Surface* light;
     SDL_Surface* sFade;
     SDL_Surface* sDiff;
+    SDL_Surface* sStory;
+    SDL_Surface* sAbout;
 
     bool lightState;
     int lightTime;
@@ -34,6 +37,9 @@ private:
     cCheckboxesOne* cb;
 
     cFader* fader;
+
+    cMover* story;
+    cMover* about;
 } ;
 
 #endif

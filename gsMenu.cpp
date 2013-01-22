@@ -39,6 +39,12 @@ gsMenu::gsMenu() {
     sDiff = TTF_RenderText_Blended(fSmall, "Difficulty:", cWhite);
 
     nextState = STATE_NULL;
+
+    sStory = loadImage("Media/Images/story.png");
+    story = new cMover(336, 122, SCR_W, 122, sStory, 500);
+
+    sAbout = loadImage("Media/Images/about.png");
+    about = new cMover(336, 122, SCR_W, 122, sAbout, 500);
 }
 
 gsMenu::~gsMenu() {
@@ -47,10 +53,14 @@ gsMenu::~gsMenu() {
     SDL_FreeSurface(light);
     SDL_FreeSurface(sFade);
     SDL_FreeSurface(sDiff);
+    SDL_FreeSurface(sStory);
 
     delete buttons;
 
     delete cb;
+
+    delete story;
+    delete about;
 }
 
 int gsMenu::events() {
@@ -75,15 +85,39 @@ int gsMenu::logic() {
         lightTime = SDL_GetTicks();
     }
 
-    if (buttons->gClicked() == 1) {
+    if (buttons->gPressed() == 1) {
         // gm->setNextState(STATE_GAME);
         nextState = STATE_GAME;
         gm->diff = cb->g();
     }
 
+    if (buttons->gPressed() == 2) {
+        story->toggle();
+
+        if (about->gState() == STATE_INSCREEN || about->gState() == STATE_MOVINGIN) {
+            about->toggle();
+        }
+    }
+
+    if (buttons->gPressed() == 3) {
+        about->toggle();
+
+        if (story->gState() == STATE_INSCREEN || story->gState() == STATE_MOVINGIN) {
+            story->toggle();
+        }
+    }
+
     if (buttons->gClicked() == 4) {
         // gm->setNextState(STATE_EXIT);
         nextState = STATE_EXIT;
+
+        if (story->gState() == STATE_INSCREEN || story->gState() == STATE_MOVINGIN) {
+            story->toggle();
+        }
+
+        if (about->gState() == STATE_INSCREEN || about->gState() == STATE_MOVINGIN) {
+            about->toggle();
+        }
     }
 
     if (nextState != STATE_NULL && fader->gState() == STATE_INVISIBLE) {
@@ -98,6 +132,9 @@ int gsMenu::logic() {
     buttons->logic();
 
     fader->logic();
+
+    story->logic();
+    about->logic();
 
     return 0;
 }
@@ -120,6 +157,9 @@ int gsMenu::render() {
     applySurface(sDiff, screen, 150, 440);
 
     cb->render(screen);
+
+    story->render(screen);
+    about->render(screen);
 
     fader->render(screen, 0, 0);
 

@@ -1,12 +1,5 @@
 To-do:
 
-Game:
-    Pauze-scherm:
-        - Mini-uitleg (keypad, waarheen, aanwijzing meubeldetector)
-
 Hele spel:
     Geluid!
     Easter Eggs (rondlopen & bosje)
-    Story
-    About
-    Readme.txt
