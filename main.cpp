@@ -1,5 +1,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
+#include <SDL/SDL_mixer.h>
 
 #include "constants.h"
 #include "globals.h"
@@ -9,6 +10,8 @@ int init() {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
 
     TTF_Init();
+
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
     screen = SDL_SetVideoMode(SCR_W, SCR_H, SCR_BPP, SDL_SWSURFACE);
     SDL_WM_SetCaption("Relentless Escape", NULL);
@@ -53,8 +56,14 @@ int quit() {
     delete gm;
 
     TTF_CloseFont(fHeadline);
+    TTF_CloseFont(fBigHeadline);
+    TTF_CloseFont(fButton);
+    TTF_CloseFont(fSmall);
+    TTF_CloseFont(fMedium);
 
     TTF_Quit();
+
+    Mix_CloseAudio();
 
     SDL_Quit();
 

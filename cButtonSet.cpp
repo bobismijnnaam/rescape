@@ -178,7 +178,7 @@ int cButtonSet::addB(std::string capt) {
 
         int t = 0;
         if (dT != 0) {
-            int t = mt_lrand() % dT;
+            t = mt_lrand() % dT;
         }
 
         buttons.push_back(new cButton(f, capt, sX - dX * .5 + d, sY + buttons.size() * dY, startAction, dir, mT - dT * .5 + t, nClr, hClr, fmt));

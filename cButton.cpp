@@ -177,7 +177,7 @@ int cButton::render(SDL_Surface* dst) {
     bool render = true;
     int pX = 0, pY = 0;
     SDL_Surface* sButton = NULL;
-    float progress;
+    float progress = 0;
 
     if (action == B_MOUT || action == B_MIN) {
         progress = (SDL_GetTicks() - actionStart) / (float)moveTime;

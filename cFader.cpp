@@ -57,6 +57,8 @@ int cFader::setSurf(SDL_Surface* surf) {
 
 int cFader::setAlpha(int alpha) {
     targetAlpha = alpha;
+
+    return 0;
 }
 
 FaderStates cFader::gState() {
@@ -79,7 +81,7 @@ int cFader::sState(FaderStates newState) {
 }
 
 int cFader::logic() {
-    int a;
+    int a = 0;
 
     if (state == STATE_FADEIN || state == STATE_FADEOUT) {
         if (SDL_GetTicks() - fadeTime >= tFade) {

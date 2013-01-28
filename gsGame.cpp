@@ -32,7 +32,6 @@ gsGame::gsGame() {
     sEnterFade = SDL_DisplayFormat(sEnterFade);
 
     SDL_Color clrGrey = {128, 128, 128};
-    SDL_Color clrBlack = {0, 0, 0};
 
     pauseFader = new cFader(sPauseFade, 500, 128, STATE_INVISIBLE);
     stateFader = new cFader(sStateFade, 500, 255, STATE_FADEOUT);
@@ -62,7 +61,7 @@ gsGame::gsGame() {
 
     sEndFade = createSurf(634, SCR_H, screen);
     fresh(sEndFade, true);
-    endFader = new cFader(sEndFade, 2000, 255, STATE_INVISIBLE);
+    endFader = new cFader(sEndFade, 2500, 255, STATE_INVISIBLE);
 
     sCaughtLight = loadImage("Media/Images/shade.png");
     caughtLight = false;
@@ -71,6 +70,10 @@ gsGame::gsGame() {
     nextState = STATE_NULL;
 
     endTrigger = false;
+
+    mCrash = Mix_LoadWAV("Media/Sounds/crash.wav");
+    mLightswitch = Mix_LoadWAV("Media/Sounds/lightswitch.wav");
+    mExit = Mix_LoadWAV("Media/Sounds/cymbal.wav");
 }
 
 gsGame::~gsGame() {
@@ -83,6 +86,10 @@ gsGame::~gsGame() {
     SDL_FreeSurface(sKP);
     SDL_FreeSurface(sKPCaption);
     SDL_FreeSurface(sKPSub);
+
+    Mix_FreeChunk(mCrash);
+    Mix_FreeChunk(mLightswitch);
+    Mix_FreeChunk(mExit);
 
     delete field;
     delete player;
@@ -184,6 +191,8 @@ int gsGame::logic() {
         endScreen(sCaughtLight, "You got caught!", gameTimer->g(), stepCount->g(), fBigHeadline, fMedium, white, grey);
 
         endFader->fIn();
+
+        Mix_PlayChannel(-1, mCrash, 0);
     }
 
     if (player->gX() == 14 && player->gY() == 8 && state == STATE_INGAME) {
@@ -195,6 +204,7 @@ int gsGame::logic() {
 
         endScreen(sEndFade, "You escaped!", gameTimer->g(), stepCount->g(), fBigHeadline, fMedium, white, grey);
         endFader->fIn();
+        Mix_PlayChannel(-1, mExit, 0);
     }
 
     if (state == STATE_PAUSED) { // Pause Menu
@@ -255,6 +265,8 @@ int gsGame::logic() {
             caughtLight = true;
             blind = false;
             endFader->sState(STATE_INVISIBLE);
+
+            Mix_PlayChannel(-1, mLightswitch, 0);
         }
     }
 
@@ -281,7 +293,7 @@ int gsGame::render() {
 
     field->render(screen);
 
-    if (state != STATE_SHOW && state != STATE_LOSE && state != STATE_WIN) player->render(screen);
+    if (state != STATE_SHOW && state != STATE_LOSE) player->render(screen); // Bij STATE_WIN meot hij wel weergegeven worden voor het weglopen!
 
     int y = 130;
 

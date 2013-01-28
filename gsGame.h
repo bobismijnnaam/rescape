@@ -2,6 +2,7 @@
 #define GSGAME_H
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 
 #include "buttons.h"
 #include "cChar.h"
@@ -67,6 +68,10 @@ private:
     SDL_Surface* sKPSub;
 
     bool endTrigger;
+
+    Mix_Chunk* mCrash;
+    Mix_Chunk* mLightswitch;
+    Mix_Chunk* mExit;
 } ;
 
 #endif

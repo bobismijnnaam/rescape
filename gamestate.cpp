@@ -31,6 +31,7 @@ cGameMan::cGameMan(GameStates startState) {
     this->nextState = STATE_NULL;
 
     diff = 2;
+    snd = true;
 }
 
 cGameMan::~cGameMan() {

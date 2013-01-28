@@ -2,6 +2,7 @@
 
 #include "cCheckboxes.h"
 #include "constants.h"
+#include "cParticles.h"
 #include "functions.h"
 #include "globals.h"
 #include "gsMenu.h"
@@ -9,7 +10,6 @@
 gsMenu::gsMenu() {
     bgB = loadImage("Media/Images/bgMenu1.png");
     bgF = loadImage("Media/Images/bgMenu2.png");
-    light = loadImage("Media/Images/light.png");
 
     lightState = true;
     lightTime = SDL_GetTicks();
@@ -45,15 +45,30 @@ gsMenu::gsMenu() {
 
     sAbout = loadImage("Media/Images/about.png");
     about = new cMover(336, 122, SCR_W, 122, sAbout, 500);
+
+    mCricket = Mix_LoadMUS("Media/Sounds/cricket.wav");
+    Mix_PlayMusic(mCricket, -1);
+
+    light = new cLight();
+    ufo = new cUfo();
+    sound = new cSound(gm->snd);
+
+    sParticle = createSurf(20, 20, screen);
+    fresh(sParticle, false);
+
+    p = new cEmitter(-50, 50, -50, 50, 0.5, 5000, 7500, sParticle);
 }
 
 gsMenu::~gsMenu() {
     SDL_FreeSurface(bgF);
     SDL_FreeSurface(bgB);
-    SDL_FreeSurface(light);
     SDL_FreeSurface(sFade);
     SDL_FreeSurface(sDiff);
     SDL_FreeSurface(sStory);
+    SDL_FreeSurface(sAbout);
+    SDL_FreeSurface(sParticle);
+
+    Mix_FreeMusic(mCricket);
 
     delete buttons;
 
@@ -61,6 +76,12 @@ gsMenu::~gsMenu() {
 
     delete story;
     delete about;
+
+    delete light;
+    delete ufo;
+    delete sound;
+
+    delete p;
 }
 
 int gsMenu::events() {
@@ -69,26 +90,36 @@ int gsMenu::events() {
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
             gm->setNextState(STATE_EXIT);
+        } else if (event.type == SDL_MOUSEBUTTONUP) {
+            // p->pulse(event.button.x, event.button.y, 2, 10);
+            // p->line(event.button.x, event.button.y, event.button.x + 500, event.button.y, 1000, 1);
         }
 
         buttons->handleEvents(&event);
 
+        ufo->events(&event);
+
         cb->events(&event);
+
+        sound->events(&event);
     }
 
     return 0;
 }
 
 int gsMenu::logic() {
-    if (SDL_GetTicks() - lightTime > 10000) {
-        lightState = !lightState;
-        lightTime = SDL_GetTicks();
-    }
-
     if (buttons->gPressed() == 1) {
         // gm->setNextState(STATE_GAME);
         nextState = STATE_GAME;
         gm->diff = cb->g();
+
+        if (story->gState() == STATE_INSCREEN || story->gState() == STATE_MOVINGIN) {
+            story->toggle();
+        }
+
+        if (about->gState() == STATE_INSCREEN || about->gState() == STATE_MOVINGIN) {
+            about->toggle();
+        }
     }
 
     if (buttons->gPressed() == 2) {
@@ -129,12 +160,42 @@ int gsMenu::logic() {
         gm->setNextState(nextState);
     }
 
+    switch (light->logic(mCricket)) {
+        case REQ_STARTMUS:
+            if ((ufo->gState() == STATE_UFODONE || ufo->gState() == STATE_WAITING) && Mix_PlayingMusic() == 0) {
+                Mix_PlayMusic(mCricket, 0);
+            }
+
+            break;
+        case REQ_STOPMUS:
+            Mix_HaltMusic();
+
+            break;
+    }
+
+    switch (ufo->logic()) {
+        case REQ_STARTMUS:
+            if (light->gState() != STATE_CRASHED && Mix_PlayingMusic() == 0) {
+                Mix_PlayMusic(mCricket, 0);
+            }
+
+            break;
+        case REQ_STOPMUS:
+            Mix_HaltMusic();
+
+            break;
+    }
+
+    p->logic();
+
     buttons->logic();
 
     fader->logic();
 
     story->logic();
     about->logic();
+
+    gm->snd = sound->g();
 
     return 0;
 }
@@ -144,15 +205,15 @@ int gsMenu::render() {
 
     applySurface(bgB, screen, 0, 0);
 
-    if (lightState) {
-        applySurface(light, screen, 435 + (SDL_GetTicks() - lightTime) / 10000.0 * 185, 388);
-    } else {
-        applySurface(light, screen, 620 - (SDL_GetTicks() - lightTime) / 10000.0 * 185, 388);
-    }
+    light->render(screen);
 
     applySurface(bgF, screen, 0, 0);
 
     buttons->render(screen);
+
+    ufo->render(screen);
+
+    p->render(screen);
 
     applySurface(sDiff, screen, 150, 440);
 
@@ -160,6 +221,8 @@ int gsMenu::render() {
 
     story->render(screen);
     about->render(screen);
+
+    sound->render(screen);
 
     fader->render(screen, 0, 0);
 

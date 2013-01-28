@@ -47,6 +47,7 @@ public:
     int changeState(); // Deze functie veranderd de functie ook daadwerkelijk (verwijderd de oude, maakt de nieuwe, etc.)
 
     int diff; // In deze pointer kun je een array aan variabelen opslaan die je in elke state wilt kunnen gebruiken.
+    bool snd;
 } ;
 
 #endif

@@ -94,6 +94,8 @@ int applyClipped(SDL_Surface* src, SDL_Surface* dst, int x, int y, SDL_Rect* cli
     tRect.y = y;
 
     t = SDL_BlitSurface(src, clip, dst, &tRect);
+
+    return 0;
 }
 
 int applySurface(SDL_Surface* src, SDL_Surface* dst, int x, int y) {

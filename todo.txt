@@ -1,5 +1,3 @@
 To-do:
 
-Hele spel:
-    Geluid!
-    Easter Eggs (rondlopen & bosje)
+Done!
